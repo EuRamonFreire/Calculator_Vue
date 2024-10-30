@@ -1,47 +1,124 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+<body>
+  <div class="container p-5">
+    <div class="display">
+      <form class="form-group" action="" @submit.prevent="calculate">
+        <input class="screen" type="text" v-model="inputStr">
+        <input class="equali" type="submit" value="=">
+      </form>
     </div>
-  </header>
+    <div class="buttons">
+      <div class="row">
+        <div class="col-auto">
+          <button @click="() => updateDisplay('+')" class="btn btn-info">+</button>
+          <button @click="() => updateDisplay( '-')" class="btn btn-info">-</button>
+          <button @click="() => updateDisplay('*')" class="btn btn-info">*</button>
+          <button @click="() => updateDisplay('/')" class="btn btn-info">÷</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-auto">
+          <button @click="() => updateDisplay('1')"  class="btn btn-warning">1</button>
+          <button @click="() => updateDisplay('2')" class="btn btn-warning">2</button>
+          <button @click="() => updateDisplay('3')" class="btn btn-warning">3</button>
+          <button class="btn btn-danger" @click="clearDisplay">C</button>
+        </div> 
+      </div>
+      <div class="row">
+        <div class="col-auto">
+          <button @click="() => updateDisplay('4')" class="btn btn-warning">4</button>
+          <button @click="() => updateDisplay('5')" class="btn btn-warning">5</button>
+          <button @click="() => updateDisplay('6')" class="btn btn-warning">6</button>
+          <button @click="() => updateDisplay('0')" class="btn btn-warning">0</button>
 
-  <main>
-    <TheWelcome />
-  </main>
+        </div> 
+      </div>
+      <div class="row">
+        <div class="col-auto">
+          <button @click="() => updateDisplay('7')" class="btn btn-warning">7</button>
+          <button @click="() => updateDisplay('8')" class="btn btn-warning">8</button>
+          <button @click="() => updateDisplay('9')" class="btn btn-warning">9</button>
+          <button @click="() => updateDisplay('.')" class="btn btn-warning">.</button>
+          
+        </div> 
+      </div>
+    </div>
+  </div>
+</body>
+
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<style>
+
+.container {
+  width: 100%;
+  margin-top: auto;
+  /* position: relative; */
+  left: 25%;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  .btn {
+    margin: 2px;
+    width: 50px;
+    height: 50px;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  .equali {
+    width: 50px;
+    height: 50px;
+    color: #fff;
+    background-color: green;
+    border-style: none;
+    border-radius: 8px;
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  .display {
+    display: inline-flex;
   }
-}
+
+  .screen{
+    height: 50px;
+    width: 160px;
+    margin-bottom: 2px;
+    margin-right: 4px;
+    border-radius: 8px;
+  }
+  /* .display{
+    height: 45px;
+    width: 165px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    
+  } */
+
+
 </style>
+
+<script >
+
+export default {
+  data() {
+    return {
+      inputStr: '',
+      result: ''
+    }
+  },
+
+  methods: {
+    updateDisplay(val) {
+      this.inputStr = this.inputStr + val
+    },
+
+    calculate () {
+      this.result = eval(this.inputStr)
+      this.inputStr = this.result
+    },
+
+    clearDisplay() {
+      this.inputStr = ''
+    }
+  },
+}
+
+</script>
