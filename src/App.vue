@@ -1,78 +1,64 @@
 <template>
-
-  <body>
-    <div class="container p-5">
-
-      <Buttons />
-      <Display />
-
-    </div>
-  </body>
-
+  <div class="container p-5 calculator">
+    <Display :value="inputStr" />
+    <Buttons @button-click="updateDisplay" @clear-click="clearDisplay" />
+  </div>
 </template>
-
-<style>
-.container {
-  width: 100%;
-  margin-top: auto;
-  /* position: relative; */
-  left: 25%;
-}
-
-.btn {
-  margin: 2px;
-  width: 50px;
-  height: 50px;
-}
-
-.equali {
-  width: 50px;
-  height: 50px;
-  color: #fff;
-  background-color: green;
-  border-style: none;
-  border-radius: 8px;
-}
-
-.display {
-  display: inline-flex;
-}
-
-.screen {
-  height: 50px;
-  width: 160px;
-  margin-bottom: 2px;
-  margin-right: 4px;
-  border-radius: 8px;
-}
-</style>
 
 <script>
 import Display from './components/Display.vue';
 import Buttons from './components/Buttons.vue';
+import { ref } from 'vue';
 
 export default {
-  data() {
+  components: {
+    Display,
+    Buttons
+  },
+
+  setup() {
+    const inputStr = ref('');
+    const result = ref(null);
+
+    const updateDisplay = (val) => {
+      if (val === '=') {
+        calculate();
+      } else {
+        inputStr.value += val;
+      }
+    };
+
+    const calculate = () => {
+      try {
+        result.value = eval(inputStr.value);
+        inputStr.value = result.value.toString();
+      } catch (e) {
+        inputStr.value = 'Error';
+      }
+    };
+
+    const clearDisplay = () => {
+      inputStr.value = '';
+    };
+
     return {
-      inputStr: '',
-      result: ''
-    }
-  },
-
-  methods: {
-    updateDisplay(val) {
-      this.inputStr = this.inputStr + val
-    },
-
-    calculate() {
-      this.result = eval(this.inputStr)
-      this.inputStr = this.result
-    },
-
-    clearDisplay() {
-      this.inputStr = ''
-    }
-  },
-}
-
+      inputStr,
+      updateDisplay,
+      calculate,
+      clearDisplay
+    };
+  }
+};
 </script>
+
+<style scoped>
+.calculator {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #0000001a;
+  background: #fefefe;
+}
+</style>
